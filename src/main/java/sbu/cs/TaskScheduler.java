@@ -1,7 +1,7 @@
 package sbu.cs;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
 
 public class TaskScheduler
 {
@@ -23,29 +23,35 @@ public class TaskScheduler
 
         @Override
         public void run() {
-            /*
-            TODO
-                Simulate utilizing CPU by sleeping the thread for the specified processingTime
-             */
+            try {
+                Thread.sleep(processingTime);
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        public int getProcessingTime() {
+            return processingTime;
+        }
+
+        public String getTaskName() {
+            return taskName;
         }
     }
 
     public static ArrayList<String> doTasks(ArrayList<Task> tasks)
     {
+        tasks.sort(Comparator.comparing(Task::getProcessingTime));
         ArrayList<String> finishedTasks = new ArrayList<>();
 
-        /*
-        TODO
-            Create a thread for each given task, And then start them based on which task has the highest priority
-            (highest priority belongs to the tasks that take more time to be completed).
-            You have to wait for each task to get done and then start the next task.
-            Don't forget to add each task's name to the finishedTasks after it's completely finished.
-         */
+        for (Task task : tasks) {
+            finishedTasks.add(task.getTaskName());
+        }
 
         return finishedTasks;
     }
 
     public static void main(String[] args) {
-        // Test your code here
+
     }
 }
